@@ -1,30 +1,40 @@
-import mysql.connector
-
-# Connect to MySQL
+#allows Python to use MySQL features by importing a special tool (connector)
+import mysql.connector                             
+#connects your Python program to the MySQL database 
+# con is a variable where connection is stored
 con = mysql.connector.connect(
     host="localhost",
-    user="root",     # replace with your username
-    password="root", # replace with your password
+    user="root",     
+    password="root", 
     database="student_db",
-    port=3307                        # use your port if different
+    port=3307                        
 )
-
+# python send sql commands to mysql(adding or deleting a student)
 cursor = con.cursor()
-
+#def is a python keyword used to define a function
+#create_student() - function name
+# : - function starts here
+# executes when someone calls 
 def create_student():
     name = input("Enter name: ")
     age = int(input("Enter age: "))
-    query = "INSERT INTO student (name, age) VALUES (%s, %s)"
-    values = (name,age)
+    # %s - placeholders for the actual values
+    query = "INSERT INTO student (name, age) VALUES (%s, %s)"  
+    # holding the actual data.
+    values = (name,age)  
     cursor.execute(query, values)
+    #save all the changes permanently 
     con.commit()
     print("✅ Student record added successfully.")
-
+#display all student records from the database.
 def read_student():
     cursor.execute("SELECT * FROM student")
+    #fetchall -A method that gets all the rows returned by the last SQL query.
     rows = cursor.fetchall()
     print("\n📋 All Students:")
+    #each student record, one at a time.
     for row in rows:
+    #print each student's details one by one on the screen.
         print(row)
 
 def update_student():
